@@ -2058,10 +2058,21 @@ end
 
 -- Opens trade site link for selected item
 function ItemsTabClass:OpenTradeLink()
-	local item = new("Item", self.displayItem:BuildRaw())
-	local tradeQuery = new("TradeQueryCurItem",item)
-	local url = tradeQuery:ParseItem()
-	OpenURL(url)
+	self.tradeQueryRequests = new("TradeQueryRequests")
+	self.tradeQueryRequests:FetchLeagues("pc", function(leagues, errMsg)
+        if errMsg then
+            self:SetNotice("Error while fetching league list: "..errMsg)
+            return
+        end
+        for _, league in ipairs(leagues) do
+            if not (string.find(league, "Standard") or string.find(league, "Ruthless") or string.find(league, "Hardcore")) then
+				local item = new("Item", self.displayItem:BuildRaw())
+				local tradeQuery = new("TradeQueryCurItem",item, league)
+				local url = tradeQuery:ParseItem()
+				OpenURL(url)
+            end
+        end
+    end)
 end
 
 -- Opens the item enchanting popup

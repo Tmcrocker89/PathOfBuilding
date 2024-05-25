@@ -1,11 +1,11 @@
 local dkjson = require "dkjson"
 
-local TradeQueryCurItem = newClass("TradeQueryCurItem", function(self, item)
+local TradeQueryCurItem = newClass("TradeQueryCurItem", function(self, item, league)
 	self.curItem = item
+    self.league = league
     -- self.itemType = item[3]
 	self.hostName = "https://www.pathofexile.com/"
     self.queryModsFilePath = "Data/QueryMods.lua"
-    self.league = 'Affliction'
     -- List of items that have a local and a non local option
     self.attrWithLocal = {
         "#% increased Armour, Evasion and Energy Shield",
